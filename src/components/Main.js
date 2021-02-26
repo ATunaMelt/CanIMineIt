@@ -2,36 +2,42 @@ import { Table } from 'react-bootstrap';
 import SingleCrypto from './SingleCrypto';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getBTCData, getETHData } from '../redux/index';
+import {
+  getBTCData,
+  getETHData,
+  getDOGData,
+  getLTCData,
+  getBCHData,
+} from '../redux/index';
 
 class Main extends Component {
   _loading = true;
   async componentDidMount() {
     await this.props.getBTCData();
     await this.props.getETHData();
-    this._loading = false;
+    await this.props.getDOGData();
+    setTimeout(async () => {
+      await this.props.getLTCData();
+      await this.props.getBCHData();
+      this._loading = false;
+      this.forceUpdate();
+    }, 3500);
     // render wasn't updating after props updated
     this.forceUpdate();
   }
   componentDidUpdate() {
-    console.log('component did update');
     this._loading = false;
   }
   render() {
-    console.log('\n --------🚀 \n RENDER \n this._loading', this._loading);
-    // Case 1 : Loading
-    // Case 2 : Loading Complete, but no data
-    // Case 3 : Loading Complete, and have data
     let cryptos = this.props.cryptos;
-
     return (
       <Table striped bordered hover variant='dark'>
         <thead>
           <tr>
             <th> Name </th>
-            <th>Ticker</th>
+            <th>Chain</th>
             <th>Price</th>
-            <th>HashPower for one Block</th>
+            <th>Difficulty</th>
           </tr>
         </thead>
         <tbody>
@@ -55,10 +61,12 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  console.log('in map dispatch');
   return {
     getBTCData: () => dispatch(getBTCData()),
     getETHData: () => dispatch(getETHData()),
+    getDOGData: () => dispatch(getDOGData()),
+    getLTCData: () => dispatch(getLTCData()),
+    getBCHData: () => dispatch(getBCHData()),
   };
 };
 
