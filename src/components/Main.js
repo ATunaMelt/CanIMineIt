@@ -36,7 +36,7 @@ class Main extends Component {
           <tr>
             <th> Name </th>
             <th>Chain</th>
-            <th>Price</th>
+            <th>Transactions</th>
             <th>Difficulty</th>
           </tr>
         </thead>

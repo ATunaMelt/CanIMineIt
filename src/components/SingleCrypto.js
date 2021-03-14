@@ -19,6 +19,16 @@ class SingleCrypto extends Component {
       <div>No data :(</div>
     );
   }
+  getTransactions() {
+    return this.props.crypto.data.transactions ? (
+      this.props.crypto.data.transactions
+    ) : this.props.isLoading ? (
+      this.renderSpinner()
+    ) : (
+      <div>No data :(</div>
+    );
+  }
+
   renderSpinner() {
     return (
       <div>
@@ -30,11 +40,12 @@ class SingleCrypto extends Component {
   render() {
     let difficulty = this.getDifficulty();
     let chain = this.getChain();
+    let transactions = this.getTransactions();
     return (
       <tr>
         <td>{this.props.crypto.name}</td>
         <td>{chain}</td>
-        <td> $55,000</td>
+        <td> {transactions}</td>
         <td> {difficulty} </td>
       </tr>
     );
